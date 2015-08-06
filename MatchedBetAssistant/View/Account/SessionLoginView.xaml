@@ -11,13 +11,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Label>Application Id</Label>
-            <TextBox x:Name="applicationIdTextBox" 
-                     Text="{Binding ApplicationId,Mode=OneWay}"
-                     MinWidth="150"/>
             <Label>Session Token</Label>
             <TextBox x:Name="sessionTextBox" 
-                     Text="{Binding SessionToken}"
+                     Text="{Binding SessionToken, UpdateSourceTrigger=PropertyChanged}"
                      MinWidth="150"/>
             <Button Command="{Binding LoginCommand}"
                     MinWidth="100"
