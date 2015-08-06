@@ -27,16 +27,7 @@ namespace MatchedBetAssistant.ViewModel.Account
         {
             get
             {
-                return applicationId;
-            }
-            set
-            {
-                if (applicationId == value)
-                    return;
-                applicationId = value;
-
-                RaisePropertyChanged(() => ApplicationId);
-                LoginCommand.RaiseCanExecuteChanged();
+                return this.assistant.ApplicationKey;
             }
         }
 
@@ -67,7 +58,7 @@ namespace MatchedBetAssistant.ViewModel.Account
 
         private void Login()
         {
-            var loggedOn = this.assistant.Login(applicationId, sessionToken);
+            var loggedOn = this.assistant.Login(sessionToken);
 
             if (loggedOn)
             {
@@ -77,7 +68,7 @@ namespace MatchedBetAssistant.ViewModel.Account
 
         private bool CanLogin()
         {
-            return !string.IsNullOrEmpty(this.ApplicationId) && !string.IsNullOrEmpty(this.sessionToken);
+            return !string.IsNullOrEmpty(this.sessionToken);
         }
     }
 }

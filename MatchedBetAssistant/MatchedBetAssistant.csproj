@@ -79,8 +79,9 @@
     </ApplicationDefinition>
     <Compile Include="Model\Betfair\Account\AccountDetails.cs" />
     <Compile Include="Model\Betfair\Account\AccountFunds.cs" />
-    <Compile Include="Model\MatchedBetAssistant.cs" />
-    <Compile Include="Services\BetfairAccountClient.cs">
+    <Compile Include="Model\BetAssistant.cs" />
+    <Compile Include="Services\BetfairAccountClient.cs" />
+    <Compile Include="Services\BetfairWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ViewModel\Account\AccountSummaryViewModel.cs" />

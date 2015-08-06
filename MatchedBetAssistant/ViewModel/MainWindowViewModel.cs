@@ -7,18 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MatchedBetAssistant.Model;
 namespace MatchedBetAssistant.ViewModel
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, IDisposable
     {
         private ViewModelBase accountView;
-        private Model.BetAssistant assistant;
+        private BetAssistant assistant;
 
         public MainWindowViewModel()
         {
             RegisterMessages();
-            this.assistant = new Model.BetAssistant();
+            this.assistant = new BetAssistant();
+            this.assistant.ReadApplicationKey();
 
             this.AccountView = new SessionLoginViewModel(assistant);
         }
@@ -43,5 +44,16 @@ namespace MatchedBetAssistant.ViewModel
         {
             this.AccountView = new AccountSummaryViewModel(this.assistant.Account);
         }
+
+
+        public void Dispose()
+        {
+            if (assistant != null)
+            {
+                assistant.Dispose();
+                assistant = null;
+            }
+        }
+
     }
 }

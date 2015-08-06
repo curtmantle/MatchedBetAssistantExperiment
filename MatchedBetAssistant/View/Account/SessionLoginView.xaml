@@ -13,7 +13,7 @@
         <StackPanel Orientation="Horizontal">
             <Label>Application Id</Label>
             <TextBox x:Name="applicationIdTextBox" 
-                     Text="{Binding ApplicationId}"
+                     Text="{Binding ApplicationId,Mode=OneWay}"
                      MinWidth="150"/>
             <Label>Session Token</Label>
             <TextBox x:Name="sessionTextBox" 

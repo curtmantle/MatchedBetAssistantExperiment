@@ -10,18 +10,13 @@ using System.Web.Services.Protocols;
 
 namespace MatchedBetAssistant.Services
 {
-    public class BetfairAccountClient : WebClient
+    public class BetfairAccountClient : IDisposable
     {
-        private NameValueCollection customHeaders;
+        private BetfairWebClient webclient;
 
         public BetfairAccountClient( string appKey, string sessionToken)
         {
-
-            this.customHeaders = new NameValueCollection();
-
-            this.customHeaders[APPKEY_HEADER] = appKey;
-
-            this.customHeaders[SESSION_TOKEN_HEADER] = sessionToken;
+            this.webclient = new BetfairWebClient(appKey, sessionToken);
 
         }
 
@@ -29,11 +24,11 @@ namespace MatchedBetAssistant.Services
         {
             var address = accountsAddress + GET_ACCOUNT_DETAILS + '/';
 
-            var request = GetRequest(address);
+            var request = this.webclient.GetRequest(address);
 
-            var response = GetWebResponse(request);
+            var response = this.webclient.GetResponse(request);
 
-            var readResponse = ReadResponse(response);
+            var readResponse =this.webclient.ReadResponse(response);
 
             return readResponse;
         }
@@ -42,44 +37,24 @@ namespace MatchedBetAssistant.Services
         {
             var address = accountsAddress + GET_ACCOUNT_FUNDS + '/';
 
-            var request = GetRequest(address);
+            var request = this.webclient.GetRequest(address);
 
-            var response = GetWebResponse(request);
+            var response = this.webclient.GetResponse(request);
 
-            var readResponse = ReadResponse(response);
+            var readResponse = this.webclient.ReadResponse(response);
 
             return readResponse;
         }
 
-        private string ReadResponse(WebResponse response)
+        public void Dispose()
         {
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            if (webclient != null)
             {
-                var jsonResponse = reader.ReadToEnd();
-                string result = jsonResponse;
-                return result;
+                Console.WriteLine("Disposing of Web Client");
+                webclient.Dispose();
+                webclient = null;
             }
         }
-
-        private HttpWebRequest GetRequest(string address)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = 0;
-            request.Headers.Add(HttpRequestHeader.AcceptCharset, "UTF-8");
-            request.Accept = "application/json";
-            request.Headers.Add("X-Application", this.customHeaders[APPKEY_HEADER]);
-            request.Headers.Add("X-Authentication", this.customHeaders[SESSION_TOKEN_HEADER]);
-
-            return request;
-        }
-
-
-        private const string APPKEY_HEADER = "X-Application";
-        private const string SESSION_TOKEN_HEADER = "X-Authentication";
-
         private const string bettingAddress = "https://api.betfair.com/exchange/betting/rest/v1.0/";
         private const string accountsAddress = "https://api.betfair.com/exchange/account/rest/v1.0/";
 

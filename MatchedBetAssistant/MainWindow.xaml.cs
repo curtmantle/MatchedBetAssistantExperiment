@@ -20,5 +20,10 @@ namespace MatchedBetAssistant
 
             this.DataContext = main;
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            this.main.Dispose();
+        }
     }
 }
