@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MatchedBetAssistant.Services.Betfair;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -20,30 +23,58 @@ namespace MatchedBetAssistant.Services
 
         }
 
-        public string GetAccountDetails()
+        public AccountDetails GetAccountDetails()
         {
             var address = accountsAddress + GET_ACCOUNT_DETAILS + '/';
 
-            var request = this.webclient.GetRequest(address);
-
-            var response = this.webclient.GetResponse(request);
-
-            var readResponse =this.webclient.ReadResponse(response);
-
-            return readResponse;
+            return GetJsonResult<AccountDetails>(address);
         }
 
-        public string GetAccountFunds()
+        public AccountFunds GetAccountFunds()
         {
             var address = accountsAddress + GET_ACCOUNT_FUNDS + '/';
 
-            var request = this.webclient.GetRequest(address);
+            return GetJsonResult<AccountFunds>(address);
+        }
+
+        public IList<EventTypeResult> ListEventTypes(MarketFilter marketFilter)
+        {
+            var address = bettingAddress + LIST_EVENT_TYPES + '/';
+
+            return GetJsonResult<IList<EventTypeResult>>(address, marketFilter);
+        }
+
+        public IList<CountryCodeResult> ListCountryCodes(MarketFilter marketFilter)
+        {
+            var address = bettingAddress + LIST_COUNTRIES + '/';
+
+            return GetJsonResult<IList<CountryCodeResult>>(address, marketFilter);
+        }
+
+
+        private T GetJsonResult<T>(string method, MarketFilter marketFilter = null)
+        {
+            var request = this.webclient.GetRequest(method);
+
+            if (marketFilter != null)
+            {
+                var postData = JObject.FromObject(new { filter = marketFilter });
+                var bytes = Encoding.GetEncoding("UTF-8").GetBytes(postData.ToString());
+                request.ContentLength = bytes.Length;
+
+                using (Stream stream = request.GetRequestStream())
+                {
+                    stream.Write(bytes, 0, bytes.Length);
+                }
+            }
 
             var response = this.webclient.GetResponse(request);
 
             var readResponse = this.webclient.ReadResponse(response);
 
-            return readResponse;
+            var jresult = JsonConvert.DeserializeObject<T>(readResponse);
+
+            return jresult;
         }
 
         public void Dispose()
@@ -60,5 +91,7 @@ namespace MatchedBetAssistant.Services
 
         private const string GET_ACCOUNT_DETAILS = "getAccountDetails";
         private const string GET_ACCOUNT_FUNDS = "getAccountFunds";
+        private const string LIST_EVENT_TYPES = "listEventTypes";
+        private const string LIST_COUNTRIES = "listCountries";
     }
 }

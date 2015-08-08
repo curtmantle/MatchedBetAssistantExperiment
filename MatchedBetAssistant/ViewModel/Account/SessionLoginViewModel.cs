@@ -13,22 +13,14 @@ namespace MatchedBetAssistant.ViewModel.Account
 {
     public sealed class SessionLoginViewModel : ViewModelBase
     {
-        private BetAssistant assistant;
+        private BetfairService assistant;
         private string applicationId;
         private string sessionToken;
         private RelayCommand loginCommand;
 
-        public SessionLoginViewModel(BetAssistant assistant)
+        public SessionLoginViewModel(BetfairService assistant)
         {
             this.assistant = assistant;
-        }
-
-        public string ApplicationId
-        {
-            get
-            {
-                return this.assistant.ApplicationKey;
-            }
         }
 
         public string SessionToken
@@ -60,9 +52,9 @@ namespace MatchedBetAssistant.ViewModel.Account
         {
             var loggedOn = this.assistant.Login(sessionToken);
 
-            if (loggedOn)
+            if (loggedOn != null)
             {
-                Messenger.Default.Send<LoggedOnMessage>(new LoggedOnMessage());
+                Messenger.Default.Send<LoggedOnMessage>(new LoggedOnMessage(loggedOn));
             }
         }
 

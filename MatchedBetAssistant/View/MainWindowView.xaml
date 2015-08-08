@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:account="clr-namespace:MatchedBetAssistant.View.Account"
-             xmlns:vma="clr-namespace:MatchedBetAssistant.ViewModel.Account" 
+             xmlns:vma="clr-namespace:MatchedBetAssistant.ViewModel.Account"
+             xmlns:vmms="clr-namespace:MatchedBetAssistant.ViewModel.MarketSelection"
+             xmlns:marketSelection="clr-namespace:MatchedBetAssistant.View.MarketSelection" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -14,6 +16,9 @@
         <DataTemplate DataType="{x:Type vma:AccountSummaryViewModel}">
             <account:AccountSummaryView DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vmms:EventSelectorViewModel}">
+            <marketSelection:EventSelectorView DataContext="{Binding}"/>   
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -22,5 +27,6 @@
         </Grid.RowDefinitions>
         
         <ContentPresenter Content="{Binding AccountView}"/>
+        <ContentPresenter Grid.Row="1" Content="{Binding MainView}"/>
     </Grid>
 </UserControl>

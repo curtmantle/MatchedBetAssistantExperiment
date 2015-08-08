@@ -8,17 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MatchedBetAssistant.Model;
+using MatchedBetAssistant.ViewModel.MarketSelection;
 namespace MatchedBetAssistant.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase, IDisposable
     {
         private ViewModelBase accountView;
-        private BetAssistant assistant;
+        private ViewModelBase mainView;
+
+        private BetfairService assistant;
 
         public MainWindowViewModel()
         {
             RegisterMessages();
-            this.assistant = new BetAssistant();
+            this.assistant = new BetfairService();
             this.assistant.ReadApplicationKey();
 
             this.AccountView = new SessionLoginViewModel(assistant);
@@ -35,14 +38,29 @@ namespace MatchedBetAssistant.ViewModel
             }
         }
 
+        public ViewModelBase MainView
+        {
+            get
+            {
+                return this.mainView;
+            }
+            set
+            {
+                this.mainView = value;
+
+                RaisePropertyChanged(() => MainView);
+            }
+        }
+
         private void RegisterMessages()
         {
             Messenger.Default.Register<LoggedOnMessage>(this, LoggedOn);
         }
 
-        private void LoggedOn(LoggedOnMessage obj)
+        private void LoggedOn(LoggedOnMessage msg)
         {
-            this.AccountView = new AccountSummaryViewModel(this.assistant.Account);
+            this.AccountView = new AccountSummaryViewModel(msg.Account);
+            this.MainView = new EventSelectorViewModel(this.assistant);
         }
 
 

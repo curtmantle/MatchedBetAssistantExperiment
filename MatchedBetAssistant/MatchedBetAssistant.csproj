@@ -77,15 +77,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Betfair\Account\AccountDetails.cs" />
-    <Compile Include="Model\Betfair\Account\AccountFunds.cs" />
-    <Compile Include="Model\BetAssistant.cs" />
+    <Compile Include="Model\BetfairAccount.cs" />
+    <Compile Include="Model\Country.cs" />
+    <Compile Include="Model\EventType.cs" />
+    <Compile Include="Services\Betfair\AccountDetails.cs" />
+    <Compile Include="Services\Betfair\AccountFunds.cs" />
+    <Compile Include="Model\BetfairService.cs" />
     <Compile Include="Services\BetfairAccountClient.cs" />
     <Compile Include="Services\BetfairWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Services\Betfair\CountryCodeResult.cs" />
+    <Compile Include="Services\Betfair\EventType.cs" />
+    <Compile Include="Services\Betfair\EventTypeResult.cs" />
+    <Compile Include="Services\Betfair\MarketBettingType.cs" />
+    <Compile Include="Services\Betfair\MarketFilter.cs" />
+    <Compile Include="Services\Betfair\OrderStatus.cs" />
+    <Compile Include="Services\Betfair\TimeRange.cs" />
     <Compile Include="ViewModel\Account\AccountSummaryViewModel.cs" />
     <Compile Include="ViewModel\Account\SessionLoginViewModel.cs" />
+    <Compile Include="ViewModel\MarketSelection\EventSelectorViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\Messages\LoggedOnMessage.cs" />
     <Compile Include="View\Account\AccountSummaryView.xaml.cs">
@@ -96,6 +107,9 @@
     </Compile>
     <Compile Include="View\Account\SessionLoginView.xaml.cs">
       <DependentUpon>SessionLoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MarketSelection\EventSelectorView.xaml.cs">
+      <DependentUpon>EventSelectorView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -117,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Account\SessionLoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MarketSelection\EventSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
