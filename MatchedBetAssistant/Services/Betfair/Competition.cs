@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MatchedBetAssistant.Services.Betfair
 {
-    public class EventType
+    public class Competition
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -16,7 +16,7 @@ namespace MatchedBetAssistant.Services.Betfair
 
         public override string ToString()
         {
-            return new StringBuilder().AppendFormat("{0}", "EventType")
+            return new StringBuilder().AppendFormat("{0}", "Competition")
                         .AppendFormat(" : Id={0}", Id)
                         .AppendFormat(" : Name={0}", Name)
                         .ToString();

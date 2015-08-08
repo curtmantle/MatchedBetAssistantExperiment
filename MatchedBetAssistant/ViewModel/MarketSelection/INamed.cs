@@ -4,8 +4,9 @@ using System.Linq;
 
 namespace MatchedBetAssistant.ViewModel.MarketSelection
 {
-    public interface INamed
+    public interface ISelectableMarket
     {
+        string Id { get; }
         string Name { get; }
     }
 }

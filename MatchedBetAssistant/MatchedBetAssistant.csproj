@@ -78,7 +78,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\BetfairAccount.cs" />
+    <Compile Include="Model\Competition.cs" />
     <Compile Include="Model\Country.cs" />
+    <Compile Include="Model\Event.cs" />
     <Compile Include="Model\EventType.cs" />
     <Compile Include="Services\Betfair\AccountDetails.cs" />
     <Compile Include="Services\Betfair\AccountFunds.cs" />
@@ -87,19 +89,30 @@
     <Compile Include="Services\BetfairWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Services\Betfair\Competition.cs" />
+    <Compile Include="Services\Betfair\CompetitionResult.cs" />
     <Compile Include="Services\Betfair\CountryCodeResult.cs" />
+    <Compile Include="Services\Betfair\Event.cs" />
+    <Compile Include="Services\Betfair\EventResult.cs" />
     <Compile Include="Services\Betfair\EventType.cs" />
     <Compile Include="Services\Betfair\EventTypeResult.cs" />
     <Compile Include="Services\Betfair\MarketBettingType.cs" />
+    <Compile Include="Services\Betfair\MarketCatalogue.cs" />
+    <Compile Include="Services\Betfair\MarketDescription.cs" />
     <Compile Include="Services\Betfair\MarketFilter.cs" />
     <Compile Include="Services\Betfair\OrderStatus.cs" />
+    <Compile Include="Services\Betfair\RunnerDescription.cs" />
     <Compile Include="Services\Betfair\TimeRange.cs" />
     <Compile Include="ViewModel\Account\AccountSummaryViewModel.cs" />
     <Compile Include="ViewModel\Account\SessionLoginViewModel.cs" />
+    <Compile Include="ViewModel\MarketSelection\CompetitionCollection.cs" />
+    <Compile Include="ViewModel\MarketSelection\CompetitionSelectorViewModel.cs" />
     <Compile Include="ViewModel\MarketSelection\CountryCollection.cs" />
     <Compile Include="ViewModel\MarketSelection\CountrySelectorViewModel.cs" />
-    <Compile Include="ViewModel\MarketSelection\EventSelectorViewModel.cs" />
+    <Compile Include="ViewModel\MarketSelection\EventCollection.cs" />
+    <Compile Include="ViewModel\MarketSelection\MarketSelectorViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\MarketSelection\EventSelectorViewModel.cs" />
     <Compile Include="ViewModel\MarketSelection\EventTypeCollection.cs" />
     <Compile Include="ViewModel\MarketSelection\EventTypeSelectorViewModel.cs" />
     <Compile Include="ViewModel\MarketSelection\INamed.cs" />

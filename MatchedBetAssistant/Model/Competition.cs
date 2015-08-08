@@ -4,10 +4,11 @@ using System.Linq;
 
 namespace MatchedBetAssistant.Model
 {
-    public class Country
+    public class Competition
     {
-        public string CountryCode { get; set; }
+        public string Id { get; set; }
 
-        public int MarketCount { get; set; }
+        public string Name { get; set; }
+
     }
 }

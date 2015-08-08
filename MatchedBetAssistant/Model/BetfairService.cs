@@ -75,6 +75,95 @@ namespace MatchedBetAssistant.Model
             return modelCountries;
         }
 
+        public IList<Event> GetEventsForEventTypeWithinCountry(string eventTypeId, string countryCode)
+        {
+            MarketFilter filter = new MarketFilter();
+            if (!string.IsNullOrEmpty(eventTypeId))
+            {
+                filter.EventTypeIds = new HashSet<string>() { eventTypeId };
+            }
+            if (!string.IsNullOrEmpty(countryCode))
+            {
+                filter.MarketCountries = new HashSet<string>() { countryCode };
+            }
+
+            return CreateEvents(filter);
+        }
+
+        public IList<Event> GetEventsForCompetition(string competitionId)
+        {
+            MarketFilter filter = new MarketFilter();
+            if (!string.IsNullOrEmpty(competitionId))
+            {
+                filter.CompetitionIds = new HashSet<string>() { competitionId };
+            }
+
+            return CreateEvents(filter);
+        }
+
+        private IList<Event> CreateEvents(MarketFilter filter)
+        {
+            var events = this.accountClient.ListEvents(filter).Where(e => e.MarketCount > 0).OrderBy(e => e.Event.OpenDate);
+
+            var modelEvents = new List<Event>();
+            foreach (var modelEvent in events)
+            {
+                modelEvents.Add(new Event()
+                {
+                    Id = modelEvent.Event.Id,
+                    Name = modelEvent.Event.Name,
+                    CountryCode = modelEvent.Event.CountryCode,
+                    Timezone = modelEvent.Event.Timezone,
+                    OpenDate = modelEvent.Event.OpenDate,
+                    Venue = modelEvent.Event.Venue
+                });
+            }
+
+            return modelEvents;
+        }
+
+        public IList<Competition> GetCompetitionsForEventTypeWithinCountry(string eventTypeId, string countryCode)
+        {
+            MarketFilter filter = new MarketFilter();
+            if (!string.IsNullOrEmpty(eventTypeId))
+            {
+                filter.EventTypeIds = new HashSet<string>() { eventTypeId };
+            }
+            if (!string.IsNullOrEmpty(countryCode))
+            {
+                filter.MarketCountries = new HashSet<string>() { countryCode };
+            }
+
+            var competitions = this.accountClient.ListCompetitions(filter);
+
+            var modelCompetitions = new List<Competition>();
+            foreach (var competition in competitions)
+            {
+                modelCompetitions.Add(new Competition()
+                {
+                    Id = competition.Competition.Id,
+                    Name = competition.Competition.Name
+                });
+            }
+
+            return modelCompetitions;
+        }
+
+        public string GetMarketCatalogueForEvent(string eventId)
+        {
+            MarketFilter filter = new MarketFilter();
+            if (!string.IsNullOrEmpty(eventId))
+            {
+                filter.EventIds = new HashSet<string>() { eventId };
+            }
+
+            var market = this.accountClient.ListMarketCatalogue(filter);
+
+            Console.WriteLine("Total markets = {0}", market.Count);
+
+            return "DONE";
+        }
+
         public IList<EventType> GetEventTypes()
         {
             return GetEventTypes(null);

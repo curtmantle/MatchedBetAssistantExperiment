@@ -16,7 +16,7 @@
         <DataTemplate DataType="{x:Type vma:AccountSummaryViewModel}">
             <account:AccountSummaryView DataContext="{Binding}"/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vmms:EventSelectorViewModel}">
+        <DataTemplate DataType="{x:Type vmms:MarketSelectorViewModel}">
             <marketSelection:EventSelectorView DataContext="{Binding}"/>   
         </DataTemplate>
     </UserControl.Resources>

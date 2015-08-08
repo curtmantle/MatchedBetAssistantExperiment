@@ -14,7 +14,6 @@ namespace MatchedBetAssistant.ViewModel.Account
     public sealed class SessionLoginViewModel : ViewModelBase
     {
         private BetfairService assistant;
-        private string applicationId;
         private string sessionToken;
         private RelayCommand loginCommand;
 

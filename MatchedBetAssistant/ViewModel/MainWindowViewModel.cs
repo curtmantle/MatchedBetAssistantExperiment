@@ -60,7 +60,7 @@ namespace MatchedBetAssistant.ViewModel
         private void LoggedOn(LoggedOnMessage msg)
         {
             this.AccountView = new AccountSummaryViewModel(msg.Account);
-            this.MainView = new EventSelectorViewModel(this.assistant);
+            this.MainView = new MarketSelectorViewModel(this.assistant);
         }
 
 

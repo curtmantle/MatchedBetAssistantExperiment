@@ -16,12 +16,12 @@ namespace MatchedBetAssistant.ViewModel.MarketSelection
         }
 
         public EventTypeCollection(IEnumerable<EventTypeSelectorViewModel> events, BetfairService service)
-            : base(events)
+            : base(events, service)
         {
             this.service = service;
         }
 
-        public override INamed SelectedItem
+        public override ISelectableMarket SelectedItem
         {
             get
             {
@@ -45,7 +45,7 @@ namespace MatchedBetAssistant.ViewModel.MarketSelection
             var selectedItem = this.SelectedItem as EventTypeSelectorViewModel;
             if (this.SelectedItem != null)
             {
-                countries = new CountryCollection(service.GetCountriesForEventType(selectedItem.Id), this);
+                countries = new CountryCollection(service.GetCountriesForEventType(selectedItem.Id), this, service);
             }
             else
             {

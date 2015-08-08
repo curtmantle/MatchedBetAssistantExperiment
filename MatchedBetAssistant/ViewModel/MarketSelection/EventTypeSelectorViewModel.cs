@@ -6,7 +6,7 @@ using GalaSoft.MvvmLight;
 
 namespace MatchedBetAssistant.ViewModel.MarketSelection
 {
-    public class EventTypeSelectorViewModel : ViewModelBase, INamed
+    public class EventTypeSelectorViewModel : ViewModelBase, ISelectableMarket
     {
         private EventType eventType;
 

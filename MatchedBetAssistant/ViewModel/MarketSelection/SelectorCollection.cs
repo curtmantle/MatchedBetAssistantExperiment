@@ -1,39 +1,50 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MatchedBetAssistant.Model;
 
 namespace MatchedBetAssistant.ViewModel.MarketSelection
 {
 
 
-    public abstract class SelectorCollection<T> : List<T>, ISelectableList where T : INamed
+    public abstract class SelectorCollection<T> : List<T>, ISelectableList where T : ISelectableMarket
     {
-        private INamed selectedItem;
+        private BetfairService service;
+        private ISelectableMarket selectedItem;
         private ISelectableList previousList;
 
         protected SelectorCollection()
         { }
 
-        protected SelectorCollection(IEnumerable<T> collection)
+        protected SelectorCollection(IEnumerable<T> collection, BetfairService service)
             : base(collection)
         {
+            this.service = service;
             this.previousList = null;
         }
 
-        protected SelectorCollection(IEnumerable<T> collection, ISelectableList previousList)
+        protected SelectorCollection(IEnumerable<T> collection, ISelectableList previousList, BetfairService service)
             : base(collection)
         {
+            this.service = service;
             this.previousList = previousList;
         }
 
-        protected SelectorCollection(ISelectableList list, ISelectableList previousList)
+        protected SelectorCollection(ISelectableList list, ISelectableList previousList, BetfairService service)
         {
+            this.service = service;
             this.previousList = previousList;
             var newList = list as SelectorCollection<T>;
             this.AddRange(newList);
         }
 
-        public virtual INamed SelectedItem
+        protected SelectorCollection(ISelectableList previousList, BetfairService service)
+        {
+            this.previousList = previousList;
+            this.service = service;
+        }
+
+        public virtual ISelectableMarket SelectedItem
         {
             get
             {
@@ -60,6 +71,11 @@ namespace MatchedBetAssistant.ViewModel.MarketSelection
         }
 
         protected string BreadcrumbSuffix { get; set; }
+
+        protected BetfairService Service
+        {
+            get { return this.service; }
+        }
 
         public event MarketSelectedEventHandler MarketSelected;
 

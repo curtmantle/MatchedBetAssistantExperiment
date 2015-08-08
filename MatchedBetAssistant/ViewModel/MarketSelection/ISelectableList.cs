@@ -6,7 +6,7 @@ namespace MatchedBetAssistant.ViewModel.MarketSelection
 {
     public interface ISelectableList
     {
-        INamed SelectedItem { get; set; }
+        ISelectableMarket SelectedItem { get; set; }
 
         string BreadcrumbString { get; }
 

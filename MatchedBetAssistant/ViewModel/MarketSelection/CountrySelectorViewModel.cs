@@ -6,7 +6,7 @@ using GalaSoft.MvvmLight;
 
 namespace MatchedBetAssistant.ViewModel.MarketSelection
 {
-    public class CountrySelectorViewModel : ViewModelBase, INamed
+    public class CountrySelectorViewModel : ViewModelBase, ISelectableMarket
     {
         private Country country;
 
@@ -14,6 +14,8 @@ namespace MatchedBetAssistant.ViewModel.MarketSelection
         {
             this.country = country;
         }
+
+        public string Id { get { return this.country.CountryCode; } }
 
         public string Name { get { return this.country.CountryCode; } }
 
