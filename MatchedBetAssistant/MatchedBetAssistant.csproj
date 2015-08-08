@@ -96,8 +96,15 @@
     <Compile Include="Services\Betfair\TimeRange.cs" />
     <Compile Include="ViewModel\Account\AccountSummaryViewModel.cs" />
     <Compile Include="ViewModel\Account\SessionLoginViewModel.cs" />
+    <Compile Include="ViewModel\MarketSelection\CountryCollection.cs" />
+    <Compile Include="ViewModel\MarketSelection\CountrySelectorViewModel.cs" />
     <Compile Include="ViewModel\MarketSelection\EventSelectorViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\MarketSelection\EventTypeCollection.cs" />
+    <Compile Include="ViewModel\MarketSelection\EventTypeSelectorViewModel.cs" />
+    <Compile Include="ViewModel\MarketSelection\INamed.cs" />
+    <Compile Include="ViewModel\MarketSelection\ISelectableList.cs" />
+    <Compile Include="ViewModel\MarketSelection\SelectorCollection.cs" />
     <Compile Include="ViewModel\Messages\LoggedOnMessage.cs" />
     <Compile Include="View\Account\AccountSummaryView.xaml.cs">
       <DependentUpon>AccountSummaryView.xaml</DependentUpon>

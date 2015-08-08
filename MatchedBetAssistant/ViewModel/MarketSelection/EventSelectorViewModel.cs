@@ -4,18 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace MatchedBetAssistant.ViewModel.MarketSelection
 {
-
     public class EventSelectorViewModel : ViewModelBase
     {
         #region Private Fields
-        private EventType selectedEventType;
         private BetfairService service;
-        private IList<EventType> eventTypes;
-        private IList<Country> countriesForEventType;
-        private int selectedIndex;
+        private EventTypeCollection eventTypes;
+        private ISelectableList currentSelection = null;
+        private RelayCommand backCommand;
 
         #endregion
 
@@ -29,77 +28,64 @@ namespace MatchedBetAssistant.ViewModel.MarketSelection
 
             var events = this.service.GetEventTypes();
 
-            this.eventTypes = events.OrderBy(e => e.Name).ToList();
+            this.eventTypes = new EventTypeCollection(events.OrderBy(e => e.Name).ToList(), this.service);
+
+            this.CurrentSelection = this.eventTypes;
         }
 
-        public IList<EventType> EventTypes
-        {
-            get { return this.eventTypes; }
-        }
 
-        public int SelectedIndex
+        public ISelectableList CurrentSelection
         {
-            get { return this.selectedIndex; }
+            get 
+            { 
+                return this.currentSelection; 
+            }
             set
             {
-                if (this.selectedIndex == value)
-                    return;
-                
-                this.selectedIndex = value;
-                RaisePropertyChanged(() => SelectedIndex);
+                if (this.currentSelection != null)
+                {
+                    this.currentSelection.MarketSelected -= OnMarketSelected;
+                }
+
+                this.currentSelection = value;
+                if (this.currentSelection != null)
+                {
+                    this.currentSelection.MarketSelected += OnMarketSelected;
+                }
+
+
+                RaisePropertyChanged(() => CurrentSelection);
+                RaisePropertyChanged(() => BreadcrumbString);
+                BackCommand.RaiseCanExecuteChanged();
             }
         }
 
-        public EventType SelectedEventType
+        public string BreadcrumbString
         {
-            get { return this.selectedEventType; }
-            set
-            {
-                if (this.selectedEventType == value)
-                    return;
-                this.selectedEventType = value;
-
-                CreateCountryList();
-
-                RaisePropertyChanged(() => SelectedEventType);
-                RaisePropertyChanged(() => SelectedEventName);
-            }
+            get { return this.CurrentSelection != null ? this.CurrentSelection.BreadcrumbString : string.Empty; }
         }
 
-        public string SelectedEventName
+        public RelayCommand BackCommand
         {
             get
             {
-                return this.selectedEventType != null ? this.selectedEventType.Name : string.Empty;
+                return this.backCommand ?? (this.backCommand = new RelayCommand(Back, CanGoBack));
             }
         }
 
-        public IList<Country> EventTypeCountries
+        private void Back()
         {
-            get
-            {
-                return this.countriesForEventType;
-            }
-            set
-            {
-                this.countriesForEventType = value;
-
-                RaisePropertyChanged(() => EventTypeCountries);
-            }
+            this.CurrentSelection = this.CurrentSelection.PreviousList;
         }
 
-        private void CreateCountryList()
+        private bool CanGoBack()
         {
-            if (this.SelectedEventType != null)
-            {
-                this.EventTypeCountries = service.GetCountriesForEventType(this.selectedEventType.Id);
-            } 
-            else
-            {
-                this.EventTypeCountries = new List<Country>();
-            }
+            return this.CurrentSelection != null && this.CurrentSelection.PreviousList != null;
+        }
 
-
+        private void OnMarketSelected(object sender, MarketSelectedEventArgs args)
+        {
+            this.CurrentSelection = args.SelectedMarketList;
         }
     }
 }
